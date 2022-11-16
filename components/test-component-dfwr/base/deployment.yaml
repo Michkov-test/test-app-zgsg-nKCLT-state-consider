@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-dfwr
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-dfwr
+    app.kubernetes.io/part-of: test-app-zgsg
+  name: test-component-dfwr
+  namespace: build-e2e-hacbs-hosg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-dfwr
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-dfwr
+    spec:
+      containers:
+      - image: quay.io/mkovarik/test-images:3da8e7d9605143fc9a84af8478b65a2b
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
